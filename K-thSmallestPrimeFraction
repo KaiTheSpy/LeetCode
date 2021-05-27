@@ -1,0 +1,39 @@
+import java.util.*;
+class Solution {
+    public int[] kthSmallestPrimeFraction(int[] arr, int k) {
+        int[] sol = new int[2]; //What I'm returning
+        //Brute force combos of all fractions:
+        double[][] combos = new double[arr.length][arr.length];
+        ArrayList<Double> mins = new ArrayList<Double>();
+        //Adding all fraction combos
+        for (int i = 0; i < combos.length; i++){
+            for (int j = 0; j < combos.length; j++){
+                if (i < j) {
+                    combos[i][j] = fraction(arr[i], arr[j]);
+                    mins.add(combos[i][j]);
+                }
+                   
+            }
+        }
+        Collections.sort(mins);
+        //Finding indexes of where the kth fraction is
+        int i1 = 0;
+        int i2 = 0;
+        for (int c = 0; c < combos.length; c++){
+            for (int d = 0; d < combos.length; d++){
+                if (combos[c][d] == mins.get(k-1)){
+                    i1 = c;
+                    i2 = d;
+                } 
+            }
+        }
+        //Return integers corresponding at the indexes found
+        sol[0] = arr[i1];
+        sol[1] = arr[i2];
+        return sol;
+    }
+
+    public double fraction(int i, int j){
+        return (double) i / (double) j;
+    }
+}
